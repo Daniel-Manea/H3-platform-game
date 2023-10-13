@@ -1,9 +1,4 @@
-
-/**
- * returns a randomly generated path
- * from the bottom left Tile
- * to the top row of Tiles
- */
+// RETURNS A RANDOM GENERATED PATH FROM THE BOTTOM LEFT TILE TO THE TOP ROW OF TILES
 function generatePath(gridSize) {
 
 	var path = []; // returning path
@@ -16,10 +11,10 @@ function generatePath(gridSize) {
     var pool = []; // available Tiles to push to the path
     var previous = path[path.length - 1]; // previous Tile
 
-		/* find potential next steps */
+		// FIND POTENTIAL NEXT STEPS
 		var relativeTiles = getRelativeTiles(previous);
 
-		/* rule out incompetent Tiles */
+		// LEAVE OUT TILES THAT ARE OFF THE GRID OR ALREADY IN THE PATH
 		for (var i = 0; i < relativeTiles.length; i++) {
 
 			if (validateTile(relativeTiles[i], path, gridSize)) {
@@ -28,33 +23,27 @@ function generatePath(gridSize) {
 			}
 		}
 
-    path.push(random(pool)); // choose a tile
+    path.push(random(pool)); // CHOOSE A TILE
   }
 
 	return path;
 }
 
-/**
- * validates Tiles -
- * Tiles must not be off the grid,
- * and must not be already in the array
- */
+// VALIDATE TILES - TILES MUST NOT BE OFF THE GRID, AND MUST NOT BE ALREADY IN THE ARRAY
 function validateTile(tile, path, gridSize) {
 
 	if ((tile.x >= 0 && tile.x < gridSize) &&
 			(tile.y >= 0 && tile.y < gridSize)) {
-			// tile is in-bounds
+			// TILE IS IN BOUNDS
 
-			/* tile is not already in the path */
+			// TILE IS NOT ALREADY IN THE PATH
 			return !arrIncludes(path, tile);
 		}
 
 	return false;
 }
 
-/**
- * returns Tiles relative to passed Tile
- */
+// RETURNS TILES RELATIVE TO PASSED TILE
 function getRelativeTiles(tile) {
 
 	var west = new Tile(tile.x - 1, tile.y, true);
@@ -64,10 +53,7 @@ function getRelativeTiles(tile) {
 	return [west, east, north];
 }
 
-/**
- * returns whether the passed tile
- * is included within passed pool
- */
+// RETURNS WHETHER THE PASSED TILE IS INCLUDED WITHIN THE PASSED POOL
 function arrIncludes(pool, tile) {
 
   var t = JSON.stringify(tile);
@@ -78,10 +64,7 @@ function arrIncludes(pool, tile) {
   return false;
 }
 
-/**
- * returns whether the user's input (steps) matches
- * the passed path thus far
- */
+// RETURNS WHETHER THE PASSED STEPS MATCH THE PASSED PATH
 function onPath(path, steps) {
 
   for (var i = 0; i < steps.length; i++)
@@ -91,9 +74,7 @@ function onPath(path, steps) {
   return true;
 }
 
-/**
- * initialized a new path
- */
+// INITIALIZED A NEW PATH
 function newPath() {
 
   resetGrid();

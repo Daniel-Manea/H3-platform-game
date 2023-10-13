@@ -20,7 +20,7 @@ function setup() {
 
   createCanvas(window.innerWidth, window.innerHeight);
 
-	/* initialize values */
+  // INITIALIZE VALUES
   level = 1;
   stepTime = 60;
 
@@ -30,12 +30,12 @@ function setup() {
   newPath();
 
   textAlign(CENTER);
-  textSize(tileSize * 0.8);
+  textSize(tileSize * 0.4);
 }
 
 function draw() {
 
-  background(51);
+  background("#000000");
 
 	drawGrid();
 	drawLevel();
@@ -61,15 +61,10 @@ function pollTasks() {
 	}
 }
 
-/**
- * handles user input
- * handles correctness & levels
- */
+// HANDLES USER INPUT
 function mousePressed() {
-
-
   if (animating) {
-		// don't allow input during animation
+		// BLOCK INPUTS WHILE ANIMATING
 		return;
 	}
 
@@ -78,26 +73,22 @@ function mousePressed() {
   if (clickedTile == null)
     return;
 
-  steps.push(clickedTile); // add to inputs
+  steps.push(clickedTile);
 
   grid[clickedTile.x][clickedTile.y].lit = true; // display
 
-	/* check for correctness */
+  // CHECK FOR CORRECT PATH
 	if (!onPath(path, steps)) {
-
 		gameOver = true;
 	}
 
-	/* check for a new level */
+  // CHECK FOR NEW LEVEL
 	if (steps.length == path.length) {
-
     newLevel = true;
 	}
 }
 
-/**
- * draws the grid
- */
+// DRAW THE GRID
 function drawGrid() {
 
   strokeWeight(4);
@@ -111,49 +102,38 @@ function drawGrid() {
   }
 }
 
-/**
- * draws the current level
- */
+// DRAW THE CURRENT LEVEL TEXT
 function drawLevel() {
-
 	noStroke();
-	fill("#FF0000");
-	text("Level " + level, width / 2, tileSize);
+	fill("#f56");
+	text("Level " + level, width / 1.5, tileSize);
 }
 
-/**
- * animates the path to the screen
- * meant to be called every frame with the state of 0
- */
+// ANIMATES THE PATH TO THE SCREEN MEANT TO BE CALLED EVERY FRAME WITH THE STATE OF 0
 function handleAnimation() {
 
   animationTime++;
 
-  var route = Math.floor(animationTime / stepTime); // what step we're on
+  var route = Math.floor(animationTime / stepTime); // CURRENT STEP
 
   if (route >= path.length) {
-		// done animating
+		// ANIMATION COMPLETE
 
-    animating = false; // now playing
+    animating = false; // PLAYING
     resetGrid();
     return;
   }
 
-	/* display the next step */
+	// DISPLAY NEXT STEP
   var tile = path[route];
   grid[tile.x][tile.y].lit = true;
 }
 
-/**
- * returns an initialized grid
- */
+// RETURNS AN INITIALIZED GRID
 function resetGrid() {
-
   grid = [];
-
   tileSize = Math.min(width / gridSize, height / gridSize);
-
-	/* creates 2D array */
+  // CREATES A 2D ARRAY
   for (var x = 0; x < gridSize; x++) {
     var col = [];
     for (var y = 0; y < gridSize; y++) {
@@ -165,9 +145,7 @@ function resetGrid() {
 
 };
 
-/**
- * sets up for a new level
- */
+// SETS UP FOR A NEW LEVEL
 function nextLevel() {
 
   level++;
@@ -178,14 +156,12 @@ function nextLevel() {
 	newLevel = false;
 }
 
-/**
- * ends the game, draws game over message
- */
+// GAME OVER SCREEN
 function endGame() {
 
 	noLoop();
   noStroke();
-  fill("#FF0000");
-  text("Game Over!", width / 2, height / 2);
+	fill("#f56");
+  text("Game Over!", width / 1.5, height / 2);
 	gameOver = false;
 }
